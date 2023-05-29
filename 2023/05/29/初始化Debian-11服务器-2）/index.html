@@ -1,149 +1,33 @@
 <!DOCTYPE html><html lang="zh-CN"><head><meta http-equiv="content-type" content="text/html; charset=utf-8"><meta content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=0" name="viewport"><meta content="yes" name="apple-mobile-web-app-capable"><meta content="black-translucent" name="apple-mobile-web-app-status-bar-style"><meta content="telephone=no" name="format-detection"><meta name="description" content="Life is Full of Possibilities"><title>初始化Debian 11服务器(2） | 春暖花开</title><link rel="stylesheet" type="text/css" href="/css/style.css?v=1.0.0"><link rel="stylesheet" type="text/css" href="//lib.baomitu.com/normalize/latest/normalize.min.css"><link rel="stylesheet" type="text/css" href="//lib.baomitu.com/pure/latest/pure-min.min.css"><link rel="stylesheet" type="text/css" href="//lib.baomitu.com/pure/latest/grids-responsive-min.min.css"><link rel="stylesheet" href="//lib.baomitu.com/font-awesome/4.7.0/css/font-awesome.min.css"><script type="text/javascript" src="//lib.baomitu.com/jquery/latest/jquery.min.js"></script><link rel="icon" mask="" sizes="any" href="/favicon.ico"><link rel="Shortcut Icon" type="image/x-icon" href="/favicon.ico"><link rel="apple-touch-icon" href="/apple-touch-icon.png"><link rel="apple-touch-icon-precomposed" href="/apple-touch-icon.png"><script type="text/javascript" src="//lib.baomitu.com/clipboard.js/latest/clipboard.min.js"></script><script type="text/javascript" src="//lib.baomitu.com/toastr.js/latest/toastr.min.js"></script><link rel="stylesheet" href="//lib.baomitu.com/toastr.js/latest/toastr.min.css"><meta name="generator" content="Hexo 6.3.0"></head><body><div class="body_container"><div id="header"><div class="site-name"><h1 class="hidden">初始化Debian 11服务器(2）</h1><a id="logo" href="/.">春暖花开</a><p class="description">Life is Full of Possibilities</p></div><div id="nav-menu"><a class="current" href="/."><i class="fa fa-home"> 首页</i></a><a href="/archives/"><i class="fa fa-archive"> 归档</i></a><a href="/about/"><i class="fa fa-user"> 关于</i></a><a href="/atom.xml"><i class="fa fa-rss"> 订阅</i></a></div></div><div class="pure-g" id="layout"><div class="pure-u-1 pure-u-md-3-4"><div class="content_container"><div class="post"><h1 class="post-title">初始化Debian 11服务器(2）</h1><div class="post-meta">2023-05-29</div><div class="post-content"><p>本文将介绍如何在Debian系统上安装Docker并进行配置。<br>建议优先参考官方文档<br><a target="_blank" rel="noopener" href="https://docs.docker.com/engine/install/debian/">Install Docker Engine on Debian | Docker Documentation</a><br>首先需要添加Docker的软件源并安装最新版Docker Engine:</p>
-<pre class="line-numbers language-bash" data-language="bash"><code class="language-bash">sudo apt install ca-certificates curl gnupg  
-sudo install -m 0755 -d &#x2F;etc&#x2F;apt&#x2F;keyrings
-curl -fsSL [https:&#x2F;&#x2F;download.docker.com&#x2F;linux&#x2F;ubuntu&#x2F;gpg](https:&#x2F;&#x2F;download.docker.com&#x2F;linux&#x2F;ubuntu&#x2F;gpg) | sudo gpg --dearmor -o &#x2F;etc&#x2F;apt&#x2F;keyrings&#x2F;docker.gpg  
-sudo chmod a+r &#x2F;etc&#x2F;apt&#x2F;keyrings&#x2F;docker.gpg
-echo \ 
-  &quot;deb [arch&#x3D;&quot;$(dpkg --print-architecture)&quot; signed-by&#x3D;&#x2F;etc&#x2F;apt&#x2F;keyrings&#x2F;docker.gpg] [https:&#x2F;&#x2F;download.docker.com&#x2F;linux&#x2F;ubuntu](https:&#x2F;&#x2F;download.docker.com&#x2F;linux&#x2F;ubuntu) \  
-  &quot;$(. &#x2F;etc&#x2F;os-release &amp;&amp; echo &quot;$VERSION_CODENAME&quot;)&quot; stable&quot; | \
-  sudo tee &#x2F;etc&#x2F;apt&#x2F;sources.list.d&#x2F;docker.list &gt; &#x2F;dev&#x2F;null
-sudo apt update  
-sudo apt install docker-ce docker-ce-cli [containerd.io](http:&#x2F;&#x2F;containerd.io&#x2F;) docker-buildx-plugin docker-compose-plugin</code></pre>
+<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br></pre></td><td class="code"><pre><span class="line">sudo apt install ca-certificates curl gnupg  </span><br><span class="line">sudo install -m 0755 -d /etc/apt/keyrings</span><br><span class="line">curl -fsSL [https://download.docker.com/linux/ubuntu/gpg](https://download.docker.com/linux/ubuntu/gpg) | sudo gpg --dearmor -o /etc/apt/keyrings/docker.gpg  </span><br><span class="line">sudo chmod a+r /etc/apt/keyrings/docker.gpg</span><br><span class="line">echo \ </span><br><span class="line">  &quot;deb [arch=&quot;$(dpkg --print-architecture)&quot; signed-by=/etc/apt/keyrings/docker.gpg] [https://download.docker.com/linux/ubuntu](https://download.docker.com/linux/ubuntu) \  </span><br><span class="line">  &quot;$(. /etc/os-release &amp;&amp; echo &quot;$VERSION_CODENAME&quot;)&quot; stable&quot; | \</span><br><span class="line">  sudo tee /etc/apt/sources.list.d/docker.list &gt; /dev/null</span><br><span class="line">sudo apt update  </span><br><span class="line">sudo apt install docker-ce docker-ce-cli [containerd.io](http://containerd.io/) docker-buildx-plugin docker-compose-plugin</span><br></pre></td></tr></table></figure>
 
 <p>然后需要将当前用户加入docker组,以免每次执行Docker命令时都需要sudo:</p>
-<pre class="line-numbers language-bash" data-language="bash"><code class="language-bash">sudo usermod -aG docker username   </code></pre>
+<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">sudo usermod -aG docker username   </span><br></pre></td></tr></table></figure>
 
 <p>注销并重新登录以使更改生效。</p>
 <p>编辑&#x2F;etc&#x2F;docker&#x2F;daemon.json文件:</p>
-<pre class="line-numbers language-bash" data-language="bash"><code class="language-bash">sudo vim &#x2F;etc&#x2F;docker&#x2F;daemon.json  </code></pre>
+<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">sudo vim /etc/docker/daemon.json  </span><br></pre></td></tr></table></figure>
 <p> <br>加入以下内容:</p>
-<pre class="line-numbers language-json" data-language="json"><code class="language-json">&#123;
-  &quot;log-driver&quot;: &quot;json-file&quot;,
-  &quot;log-opts&quot;: &#123;
-      &quot;max-size&quot;: &quot;20m&quot;,
-      &quot;max-file&quot;: &quot;3&quot;
-  &#125;,
-  &quot;ipv6&quot;: true, 
-  &quot;fixed-cidr-v6&quot;: &quot;fd00:dead:beef:c0::&#x2F;80&quot;,
-  &quot;experimental&quot;:true,
-  &quot;ip6tables&quot;:true
-&#125;</code></pre>
+<figure class="highlight json"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br></pre></td><td class="code"><pre><span class="line"><span class="punctuation">&#123;</span></span><br><span class="line">  <span class="attr">&quot;log-driver&quot;</span><span class="punctuation">:</span> <span class="string">&quot;json-file&quot;</span><span class="punctuation">,</span></span><br><span class="line">  <span class="attr">&quot;log-opts&quot;</span><span class="punctuation">:</span> <span class="punctuation">&#123;</span></span><br><span class="line">      <span class="attr">&quot;max-size&quot;</span><span class="punctuation">:</span> <span class="string">&quot;20m&quot;</span><span class="punctuation">,</span></span><br><span class="line">      <span class="attr">&quot;max-file&quot;</span><span class="punctuation">:</span> <span class="string">&quot;3&quot;</span></span><br><span class="line">  <span class="punctuation">&#125;</span><span class="punctuation">,</span></span><br><span class="line">  <span class="attr">&quot;ipv6&quot;</span><span class="punctuation">:</span> <span class="literal"><span class="keyword">true</span></span><span class="punctuation">,</span> </span><br><span class="line">  <span class="attr">&quot;fixed-cidr-v6&quot;</span><span class="punctuation">:</span> <span class="string">&quot;fd00:dead:beef:c0::/80&quot;</span><span class="punctuation">,</span></span><br><span class="line">  <span class="attr">&quot;experimental&quot;</span><span class="punctuation">:</span><span class="literal"><span class="keyword">true</span></span><span class="punctuation">,</span></span><br><span class="line">  <span class="attr">&quot;ip6tables&quot;</span><span class="punctuation">:</span><span class="literal"><span class="keyword">true</span></span></span><br><span class="line"><span class="punctuation">&#125;</span></span><br></pre></td></tr></table></figure>
 
 <p>重启Docker服务:</p>
-<pre class="line-numbers language-bash" data-language="bash"><code class="language-bash">sudo systemctl restart docker</code></pre>
+<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">sudo systemctl restart docker</span><br></pre></td></tr></table></figure>
 
 <p>安装Traefik</p>
 <p>首先,我们需要创建一个Docker network,以便Traefik和其他服务可以互相通信:</p>
-<pre class="line-numbers language-bash" data-language="bash"><code class="language-bash">docker network create traefik</code></pre>
+<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">docker network create traefik</span><br></pre></td></tr></table></figure>
 
 <p>然后,创建Traefik的配置目录和存放证书的文件:</p>
-<pre class="line-numbers language-bash" data-language="bash"><code class="language-bash">mkdir -p ~&#x2F;traefik
-touch ~&#x2F;traefik&#x2F;acme.json 
-chmod 600 ~&#x2F;traefik&#x2F;acme.json</code></pre>
+<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">mkdir -p ~/traefik</span><br><span class="line">touch ~/traefik/acme.json </span><br><span class="line">chmod 600 ~/traefik/acme.json</span><br></pre></td></tr></table></figure>
 
 <p>编辑Traefik的静态配置文件traefik.yml:</p>
-<pre class="line-numbers language-yaml" data-language="yaml"><code class="language-yaml">global:
-  checkNewVersion: true   # 检查Traefik是否有新版本，保持更新是很重要的，可以获取最新的功能和安全修复。
-  sendAnonymousUsage: false  # 不发送匿名使用情况数据，如果你不想分享你的Traefik使用数据，可以将此项设置为false。
-
-entryPoints:
-  web:
-    address: &quot;:80&quot;   # HTTP监听端口，用于接收HTTP请求。
-    http:
-      redirections:    # 将HTTP请求重定向到HTTPS，确保安全的通信。
-        entryPoint:
-          to: websecure  
-
-  websecure:  
-    address: &quot;:443&quot;  # HTTPS监听端口，用于接收HTTPS请求。
-    http:
-      tls:
-        certResolver: dns-cloudflare  # 使用Cloudflare证书解析器，用于管理HTTPS证书的自动获取和更新。
-        domains:
-          - main: &quot;domain.com&quot;  # 主要域名，用于生成证书。
-            sans:  
-              - &quot;*.domain.com&quot;  # 通用名称，允许使用通配符的子域名。
-
-providers:
-  docker:
-    defaultRule: &quot;Host(&#96;&#123;&#123; trimPrefix &#96;&#x2F;&#96; .Name &#125;&#125;.domain.com&#96;)&quot;  # Docker容器域名规则，用于将容器与域名进行关联。
-    watch: true  # 监听Docker事件，当有新的容器启动或停止时，Traefik会自动更新配置。
-    network: traefik  # 指定Docker网络，Traefik将通过该网络与容器进行通信。
-    exposedByDefault: false  # 只有加了label标签的容器才会被traefik发现并关联。
-
-  file:
-    filename: &#x2F;etc&#x2F;traefik&#x2F;dynamic.yml  # 动态配置文件的路径，Traefik会监听该文件的变化并重新加载配置。
-    watch: true  # 监听文件变化并重新加载，方便在运行时动态更新配置。
-
-api:
-  dashboard: true  # 启用Web UI，可以通过该界面查看Traefik的运行状态和配置信息。
-
-log:
-  level: WARN  # 日志级别，可以根据需要调整日志的详细程度，此处设置为WARN表示只记录警告及以上级别的日志信息。
-
-accessLog: &#123;&#125;  # 开启记录访问日志信息。
-
-certificatesResolvers:
-  dns-cloudflare:  # Cloudflare证书解析器，用于自动获取和更新HTTPS证书。
-    acme:  
-      email: name@email.com  # 证书过期提醒邮箱，当证书即将过期时，Traefik会发送提醒邮件。
-      storage: &#x2F;etc&#x2F;traefik&#x2F;acme.json  # 证书存储位置，用于存储已获取的证书和相关信息。
-      dnsChallenge:
-        provider: cloudflare  
-        resolvers:  
-          - &quot;1.1.1.1:53&quot; # Cloudflare DNS服务器，Traefik在进行DNS验证时将使用此服务器进行域名解析。  
-          - &quot;1.0.0.1:53&quot;
-</code></pre>
+<figure class="highlight yaml"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br></pre></td><td class="code"><pre><span class="line"><span class="attr">global:</span></span><br><span class="line">  <span class="attr">checkNewVersion:</span> <span class="literal">true</span>   <span class="comment"># 检查Traefik是否有新版本，保持更新是很重要的，可以获取最新的功能和安全修复。</span></span><br><span class="line">  <span class="attr">sendAnonymousUsage:</span> <span class="literal">false</span>  <span class="comment"># 不发送匿名使用情况数据，如果你不想分享你的Traefik使用数据，可以将此项设置为false。</span></span><br><span class="line"></span><br><span class="line"><span class="attr">entryPoints:</span></span><br><span class="line">  <span class="attr">web:</span></span><br><span class="line">    <span class="attr">address:</span> <span class="string">&quot;:80&quot;</span>   <span class="comment"># HTTP监听端口，用于接收HTTP请求。</span></span><br><span class="line">    <span class="attr">http:</span></span><br><span class="line">      <span class="attr">redirections:</span>    <span class="comment"># 将HTTP请求重定向到HTTPS，确保安全的通信。</span></span><br><span class="line">        <span class="attr">entryPoint:</span></span><br><span class="line">          <span class="attr">to:</span> <span class="string">websecure</span>  </span><br><span class="line"></span><br><span class="line">  <span class="attr">websecure:</span>  </span><br><span class="line">    <span class="attr">address:</span> <span class="string">&quot;:443&quot;</span>  <span class="comment"># HTTPS监听端口，用于接收HTTPS请求。</span></span><br><span class="line">    <span class="attr">http:</span></span><br><span class="line">      <span class="attr">tls:</span></span><br><span class="line">        <span class="attr">certResolver:</span> <span class="string">dns-cloudflare</span>  <span class="comment"># 使用Cloudflare证书解析器，用于管理HTTPS证书的自动获取和更新。</span></span><br><span class="line">        <span class="attr">domains:</span></span><br><span class="line">          <span class="bullet">-</span> <span class="attr">main:</span> <span class="string">&quot;domain.com&quot;</span>  <span class="comment"># 主要域名，用于生成证书。</span></span><br><span class="line">            <span class="attr">sans:</span>  </span><br><span class="line">              <span class="bullet">-</span> <span class="string">&quot;*.domain.com&quot;</span>  <span class="comment"># 通用名称，允许使用通配符的子域名。</span></span><br><span class="line"></span><br><span class="line"><span class="attr">providers:</span></span><br><span class="line">  <span class="attr">docker:</span></span><br><span class="line">    <span class="attr">defaultRule:</span> <span class="string">&quot;Host(`<span class="template-variable">&#123;&#123; trimPrefix `/` .Name &#125;&#125;</span>.domain.com`)&quot;</span>  <span class="comment"># Docker容器域名规则，用于将容器与域名进行关联。</span></span><br><span class="line">    <span class="attr">watch:</span> <span class="literal">true</span>  <span class="comment"># 监听Docker事件，当有新的容器启动或停止时，Traefik会自动更新配置。</span></span><br><span class="line">    <span class="attr">network:</span> <span class="string">traefik</span>  <span class="comment"># 指定Docker网络，Traefik将通过该网络与容器进行通信。</span></span><br><span class="line">    <span class="attr">exposedByDefault:</span> <span class="literal">false</span>  <span class="comment"># 只有加了label标签的容器才会被traefik发现并关联。</span></span><br><span class="line"></span><br><span class="line">  <span class="attr">file:</span></span><br><span class="line">    <span class="attr">filename:</span> <span class="string">/etc/traefik/dynamic.yml</span>  <span class="comment"># 动态配置文件的路径，Traefik会监听该文件的变化并重新加载配置。</span></span><br><span class="line">    <span class="attr">watch:</span> <span class="literal">true</span>  <span class="comment"># 监听文件变化并重新加载，方便在运行时动态更新配置。</span></span><br><span class="line"></span><br><span class="line"><span class="attr">api:</span></span><br><span class="line">  <span class="attr">dashboard:</span> <span class="literal">true</span>  <span class="comment"># 启用Web UI，可以通过该界面查看Traefik的运行状态和配置信息。</span></span><br><span class="line"></span><br><span class="line"><span class="attr">log:</span></span><br><span class="line">  <span class="attr">level:</span> <span class="string">WARN</span>  <span class="comment"># 日志级别，可以根据需要调整日志的详细程度，此处设置为WARN表示只记录警告及以上级别的日志信息。</span></span><br><span class="line"></span><br><span class="line"><span class="attr">accessLog:</span> &#123;&#125;  <span class="comment"># 开启记录访问日志信息。</span></span><br><span class="line"></span><br><span class="line"><span class="attr">certificatesResolvers:</span></span><br><span class="line">  <span class="attr">dns-cloudflare:</span>  <span class="comment"># Cloudflare证书解析器，用于自动获取和更新HTTPS证书。</span></span><br><span class="line">    <span class="attr">acme:</span>  </span><br><span class="line">      <span class="attr">email:</span> <span class="string">name@email.com</span>  <span class="comment"># 证书过期提醒邮箱，当证书即将过期时，Traefik会发送提醒邮件。</span></span><br><span class="line">      <span class="attr">storage:</span> <span class="string">/etc/traefik/acme.json</span>  <span class="comment"># 证书存储位置，用于存储已获取的证书和相关信息。</span></span><br><span class="line">      <span class="attr">dnsChallenge:</span></span><br><span class="line">        <span class="attr">provider:</span> <span class="string">cloudflare</span>  </span><br><span class="line">        <span class="attr">resolvers:</span>  </span><br><span class="line">          <span class="bullet">-</span> <span class="string">&quot;1.1.1.1:53&quot;</span> <span class="comment"># Cloudflare DNS服务器，Traefik在进行DNS验证时将使用此服务器进行域名解析。  </span></span><br><span class="line">          <span class="bullet">-</span> <span class="string">&quot;1.0.0.1:53&quot;</span></span><br><span class="line"></span><br></pre></td></tr></table></figure>
 
 <p>然后编辑Traefik的动态配置文件dynamic.yml:</p>
-<pre class="line-numbers language-yaml" data-language="yaml"><code class="language-yaml">tls:
-  options:
-    default:    # 默认TLS选项，用于所有域名的TLS配置。
-      sniStrict: true   # 开启SNI严格模式，可以限制ip直接访问。
-      minVersion: VersionTLS12   # 最低支持TLS 1.2版本。
-      cipherSuites:   # 支持的加密套件列表，用于建立TLS连接时的加密算法选择。
-        - TLS_ECDHE_ECDSA_WITH_AES_128_GCM_SHA256   
-        - TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256   
-        - TLS_ECDHE_ECDSA_WITH_AES_256_GCM_SHA384  
-        - TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384  
-        - TLS_ECDHE_ECDSA_WITH_CHACHA20_POLY1305 
-        - TLS_ECDHE_RSA_WITH_CHACHA20_POLY1305   
-    mintls13:   # 最低使用TLS 1.3版本。
-      minVersion: VersionTLS13   
-</code></pre>
+<figure class="highlight yaml"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br></pre></td><td class="code"><pre><span class="line"><span class="attr">tls:</span></span><br><span class="line">  <span class="attr">options:</span></span><br><span class="line">    <span class="attr">default:</span>    <span class="comment"># 默认TLS选项，用于所有域名的TLS配置。</span></span><br><span class="line">      <span class="attr">sniStrict:</span> <span class="literal">true</span>   <span class="comment"># 开启SNI严格模式，可以限制ip直接访问。</span></span><br><span class="line">      <span class="attr">minVersion:</span> <span class="string">VersionTLS12</span>   <span class="comment"># 最低支持TLS 1.2版本。</span></span><br><span class="line">      <span class="attr">cipherSuites:</span>   <span class="comment"># 支持的加密套件列表，用于建立TLS连接时的加密算法选择。</span></span><br><span class="line">        <span class="bullet">-</span> <span class="string">TLS_ECDHE_ECDSA_WITH_AES_128_GCM_SHA256</span>   </span><br><span class="line">        <span class="bullet">-</span> <span class="string">TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256</span>   </span><br><span class="line">        <span class="bullet">-</span> <span class="string">TLS_ECDHE_ECDSA_WITH_AES_256_GCM_SHA384</span>  </span><br><span class="line">        <span class="bullet">-</span> <span class="string">TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384</span>  </span><br><span class="line">        <span class="bullet">-</span> <span class="string">TLS_ECDHE_ECDSA_WITH_CHACHA20_POLY1305</span> </span><br><span class="line">        <span class="bullet">-</span> <span class="string">TLS_ECDHE_RSA_WITH_CHACHA20_POLY1305</span>   </span><br><span class="line">    <span class="attr">mintls13:</span>   <span class="comment"># 最低使用TLS 1.3版本。</span></span><br><span class="line">      <span class="attr">minVersion:</span> <span class="string">VersionTLS13</span>   </span><br><span class="line"></span><br></pre></td></tr></table></figure>
 
 <p>部署Traefik服务:</p>
-<pre class="line-numbers language-yaml" data-language="yaml"><code class="language-yaml">services:
-  traefik:
-    image: traefik:v2.10.1  # 使用Traefik版本2.10.1的Docker镜像。
-    container_name: traefik  # 容器的名称为&quot;traefik&quot;。
-    security_opt:  
-      - no-new-privileges:true  # 设置容器的安全选项，禁止新的特权提升。
-    ports:
-      - &quot;80:80&quot;  # 将主机的80端口映射到容器的80端口，用于接收HTTP请求。
-      - &quot;443:443&quot;  # 将主机的443端口映射到容器的443端口，用于接收HTTPS请求。
-    volumes:
-      - &#x2F;etc&#x2F;timezone:&#x2F;etc&#x2F;timezone:ro  # 将主机的时区文件挂载到容器中，以保持时间一致性。
-      - &#x2F;etc&#x2F;localtime:&#x2F;etc&#x2F;localtime:ro  # 将主机的本地时间文件挂载到容器中，以保持时间一致性。
-      - &#x2F;var&#x2F;run&#x2F;docker.sock:&#x2F;var&#x2F;run&#x2F;docker.sock:ro  # 将主机的Docker套接字挂载到容器中，以便Traefik能够与Docker交互。
-      - ~&#x2F;traefik:&#x2F;etc&#x2F;traefik  # 将主机上的目录挂载到容器中，用于存储Traefik的配置文件和证书等数据。
-    networks:
-      - traefik  # 使用名为&quot;traefik&quot;的Docker网络，用于容器之间的通信。
-    labels:
-      traefik.enable: true  # 启用Traefik对该容器的代理和路由功能。
-      traefik.http.routers.api.rule: Host(&#96;traefik.domain.com&#96;)  # 配置Traefik的路由规则，将请求路由到容器。
-      traefik.http.routers.api.entryPoints: websecure  # 指定路由使用的入口点为&quot;websecure&quot;，即HTTPS入口点。
-      traefik.http.routers.api.service: api@internal  # 指定服务为Traefik内部API服务。
-    environment:
-      PUID: 1000  # 设置容器中Traefik进程的用户ID。
-      PGID: 1000  # 设置容器中Traefik进程的组ID。
-      CF_DNS_API_TOKEN: your cloudflare dns token  # 设置Cloudflare DNS API令牌，用于进行DNS验证和管理。
-    restart: unless-stopped  # 设置容器在非停止状态下自动重启。
-
-networks:
-  traefik:
-    external: true  # 定义名为&quot;traefik&quot;的外部Docker网络，使Traefik容器能够与其他容器进行通信。
-</code></pre>
+<figure class="highlight yaml"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br></pre></td><td class="code"><pre><span class="line"><span class="attr">services:</span></span><br><span class="line">  <span class="attr">traefik:</span></span><br><span class="line">    <span class="attr">image:</span> <span class="string">traefik:v2.10.1</span>  <span class="comment"># 使用Traefik版本2.10.1的Docker镜像。</span></span><br><span class="line">    <span class="attr">container_name:</span> <span class="string">traefik</span>  <span class="comment"># 容器的名称为&quot;traefik&quot;。</span></span><br><span class="line">    <span class="attr">security_opt:</span>  </span><br><span class="line">      <span class="bullet">-</span> <span class="literal">no</span><span class="string">-new-privileges:true</span>  <span class="comment"># 设置容器的安全选项，禁止新的特权提升。</span></span><br><span class="line">    <span class="attr">ports:</span></span><br><span class="line">      <span class="bullet">-</span> <span class="string">&quot;80:80&quot;</span>  <span class="comment"># 将主机的80端口映射到容器的80端口，用于接收HTTP请求。</span></span><br><span class="line">      <span class="bullet">-</span> <span class="string">&quot;443:443&quot;</span>  <span class="comment"># 将主机的443端口映射到容器的443端口，用于接收HTTPS请求。</span></span><br><span class="line">    <span class="attr">volumes:</span></span><br><span class="line">      <span class="bullet">-</span> <span class="string">/etc/timezone:/etc/timezone:ro</span>  <span class="comment"># 将主机的时区文件挂载到容器中，以保持时间一致性。</span></span><br><span class="line">      <span class="bullet">-</span> <span class="string">/etc/localtime:/etc/localtime:ro</span>  <span class="comment"># 将主机的本地时间文件挂载到容器中，以保持时间一致性。</span></span><br><span class="line">      <span class="bullet">-</span> <span class="string">/var/run/docker.sock:/var/run/docker.sock:ro</span>  <span class="comment"># 将主机的Docker套接字挂载到容器中，以便Traefik能够与Docker交互。</span></span><br><span class="line">      <span class="bullet">-</span> <span class="string">~/traefik:/etc/traefik</span>  <span class="comment"># 将主机上的目录挂载到容器中，用于存储Traefik的配置文件和证书等数据。</span></span><br><span class="line">    <span class="attr">networks:</span></span><br><span class="line">      <span class="bullet">-</span> <span class="string">traefik</span>  <span class="comment"># 使用名为&quot;traefik&quot;的Docker网络，用于容器之间的通信。</span></span><br><span class="line">    <span class="attr">labels:</span></span><br><span class="line">      <span class="attr">traefik.enable:</span> <span class="literal">true</span>  <span class="comment"># 启用Traefik对该容器的代理和路由功能。</span></span><br><span class="line">      <span class="attr">traefik.http.routers.api.rule:</span> <span class="string">Host(`traefik.domain.com`)</span>  <span class="comment"># 配置Traefik的路由规则，将请求路由到容器。</span></span><br><span class="line">      <span class="attr">traefik.http.routers.api.entryPoints:</span> <span class="string">websecure</span>  <span class="comment"># 指定路由使用的入口点为&quot;websecure&quot;，即HTTPS入口点。</span></span><br><span class="line">      <span class="attr">traefik.http.routers.api.service:</span> <span class="string">api@internal</span>  <span class="comment"># 指定服务为Traefik内部API服务。</span></span><br><span class="line">    <span class="attr">environment:</span></span><br><span class="line">      <span class="attr">PUID:</span> <span class="number">1000</span>  <span class="comment"># 设置容器中Traefik进程的用户ID。</span></span><br><span class="line">      <span class="attr">PGID:</span> <span class="number">1000</span>  <span class="comment"># 设置容器中Traefik进程的组ID。</span></span><br><span class="line">      <span class="attr">CF_DNS_API_TOKEN:</span> <span class="string">your</span> <span class="string">cloudflare</span> <span class="string">dns</span> <span class="string">token</span>  <span class="comment"># 设置Cloudflare DNS API令牌，用于进行DNS验证和管理。</span></span><br><span class="line">    <span class="attr">restart:</span> <span class="string">unless-stopped</span>  <span class="comment"># 设置容器在非停止状态下自动重启。</span></span><br><span class="line"></span><br><span class="line"><span class="attr">networks:</span></span><br><span class="line">  <span class="attr">traefik:</span></span><br><span class="line">    <span class="attr">external:</span> <span class="literal">true</span>  <span class="comment"># 定义名为&quot;traefik&quot;的外部Docker网络，使Traefik容器能够与其他容器进行通信。</span></span><br><span class="line"></span><br></pre></td></tr></table></figure>
 
 <p>获取CF_DNS_API_TOKEN的步骤:</p>
 <ol>
